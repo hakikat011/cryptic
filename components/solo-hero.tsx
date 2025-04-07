@@ -5,7 +5,13 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowDown } from "lucide-react"
 import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import SplitType from "split-type"
+
+// Register ScrollTrigger plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 export default function SoloHero() {
   const heroRef = useRef<HTMLDivElement>(null)
@@ -13,33 +19,73 @@ export default function SoloHero() {
   const nameRef = useRef<HTMLSpanElement>(null)
   const descriptionRef = useRef<HTMLParagraphElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
+  const originalImageRef = useRef<HTMLDivElement>(null)
   const buttonsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Add hover effect for image swap
+    const handleMouseEnter = () => {
+      gsap.to(imageRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+      gsap.to(originalImageRef.current, {
+        opacity: 0.8,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(imageRef.current, {
+        opacity: 0.8,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+      gsap.to(originalImageRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+    };
+
+    const heroElement = heroRef.current;
+    if (heroElement) {
+      heroElement.addEventListener('mouseenter', handleMouseEnter);
+      heroElement.addEventListener('mouseleave', handleMouseLeave);
+    }
+
     // Initialize GSAP animations
     const ctx = gsap.context(() => {
       // Create timeline for hero animations
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
-
-      // Split text for character animations using SplitType
-      const titleSplit = new SplitType(titleRef.current!, { types: "chars" })
-      const nameSplit = new SplitType(nameRef.current!, { types: "chars" })
-      const descSplit = new SplitType(descriptionRef.current!, { types: "words" })
+      const tl = gsap.timeline({ 
+        defaults: { ease: "power3.out" },
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          toggleActions: "play reverse play reverse", // This ensures proper reversal
+        }
+      })
 
       // Hero background animation
-      tl.fromTo(heroRef.current, { opacity: 0 }, { opacity: 1, duration: 1 })
+      tl.fromTo(heroRef.current, 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 1 }
+      )
 
       // Title animation
       tl.fromTo(
-        titleSplit.chars || [],
+        titleRef.current?.querySelectorAll('.char') || [],
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, stagger: 0.03, duration: 0.8 },
-        "-=0.5",
+        "-=0.5"
       )
 
-      // Name animation with glow effect
+      // Name animation
       tl.fromTo(
-        nameSplit.chars || [],
+        nameRef.current?.querySelectorAll('.char') || [],
         { opacity: 0, scale: 0.5 },
         {
           opacity: 1,
@@ -55,23 +101,15 @@ export default function SoloHero() {
             })
           },
         },
-        "-=0.3",
+        "-=0.3"
       )
 
       // Description animation
       tl.fromTo(
-        descSplit.words || [],
+        descriptionRef.current?.querySelectorAll('.word') || [],
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, stagger: 0.03, duration: 0.8 },
-        "-=0.5",
-      )
-
-      // Image reveal animation
-      tl.fromTo(
-        imageRef.current,
-        { clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" },
-        { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 1.5 },
-        "-=0.8",
+        "-=0.5"
       )
 
       // Buttons animation
@@ -79,7 +117,7 @@ export default function SoloHero() {
         buttonsRef.current?.children || [],
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, stagger: 0.2, duration: 0.8 },
-        "-=1",
+        "-=0.5"
       )
 
       // Scroll indicator animation
@@ -100,33 +138,36 @@ export default function SoloHero() {
             })
           },
         },
-        "-=0.5",
+        "-=0.5"
       )
 
-      // Parallax scroll effect
-      gsap.to(imageRef.current, {
-        y: 100,
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      })
+      // Fade out on scroll with proper reset
+      ScrollTrigger.create({
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        onUpdate: (self) => {
+          if (heroRef.current) {
+            gsap.to(heroRef.current, {
+              opacity: 1 - self.progress * 0.7,
+              y: self.progress * 100,
+              overwrite: true,
+              duration: 0
+            });
+          }
+        }
+      });
 
-      // Fade out on scroll
-      gsap.to(heroRef.current, {
-        opacity: 0.3,
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "center top",
-          end: "bottom top",
-          scrub: true,
-        },
-      })
     }, heroRef)
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert();
+      if (heroElement) {
+        heroElement.removeEventListener('mouseenter', handleMouseEnter);
+        heroElement.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
   }, [])
 
   const scrollToAbout = () => {
@@ -141,22 +182,33 @@ export default function SoloHero() {
       {/* Animated grid background */}
       <div className="absolute inset-0 solo-grid-pattern opacity-20"></div>
 
-      {/* Hero background image - high quality and clear */}
+      {/* Hero background images - sketchy and original with hover effect */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/hero-background.jpeg"
-          alt="Dark themed background"
-          fill
-          priority
-          className="object-cover opacity-80"
-          quality={100}
-        />
+        {/* Sketchy animated image */}
+        <div className="absolute inset-0 transition-opacity duration-500" ref={imageRef}>
+          <Image
+            src="/images/sketchy-animated.jpg" // Replace with your sketchy image path
+            alt="Artistic background"
+            fill
+            priority
+            className="object-cover opacity-80"
+            quality={100}
+          />
+        </div>
+        
+        {/* Original image (hidden by default) */}
+        <div className="absolute inset-0 opacity-0 transition-opacity duration-500" ref={originalImageRef}>
+          <Image
+            src="/images/hakikat-profile.jpg" // Replace with your original image path
+            alt="Hakikat Singh"
+            fill
+            priority
+            className="object-cover"
+            quality={100}
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-purple-900/20 to-black/60 backdrop-blur-[2px]"></div>
       </div>
-
-      {/* Purple glow effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-solo-purple/20 rounded-full blur-[100px] z-0"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-solo-blue/20 rounded-full blur-[100px] z-0"></div>
 
       {/* Hero content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 z-10">
@@ -192,18 +244,6 @@ export default function SoloHero() {
         </div>
       </div>
 
-      {/* Character image */}
-      <div ref={imageRef} className="absolute right-0 bottom-0 h-[90vh] w-1/2 z-0 opacity-90 hidden lg:block">
-        <Image
-          src="/images/quantum-character.png"
-          alt="Quantum Developer Character"
-          fill
-          priority
-          className="object-contain object-bottom"
-          quality={100}
-        />
-      </div>
-
       {/* Scroll Down Indicator */}
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 scroll-indicator">
         <Button
@@ -219,4 +259,9 @@ export default function SoloHero() {
     </div>
   )
 }
+
+
+
+
+
 

@@ -26,6 +26,7 @@ export default function MusicPlayer() {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const isPlayingRef = useRef(false) // Add this line to track playing state
 
   useEffect(() => {
     // Create audio element
@@ -64,31 +65,41 @@ export default function MusicPlayer() {
   }, [isMuted])
 
   useEffect(() => {
-    if (audioRef.current) {
-      // Stop current track
-      audioRef.current.pause()
-
-      // Load and play new track
-      audioRef.current.src = tracks[currentTrackIndex].src
-
-      if (isPlaying) {
-        audioRef.current.play().catch((error) => {
-          console.error("Error playing audio:", error)
-        })
+    const playNewTrack = async () => {
+      if (audioRef.current) {
+        try {
+          // Stop current track
+          audioRef.current.pause()
+          
+          // Load new track
+          audioRef.current.src = tracks[currentTrackIndex].src
+          
+          // Play new track if it was playing before
+          if (isPlayingRef.current) {
+            await audioRef.current.play()
+          }
+        } catch (error) {
+          console.error("Error switching tracks:", error)
+        }
       }
     }
+
+    playNewTrack()
   }, [currentTrackIndex])
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause()
-      } else {
-        audioRef.current.play().catch((error) => {
-          console.error("Error playing audio:", error)
-        })
+      try {
+        if (isPlaying) {
+          await audioRef.current.pause()
+        } else {
+          await audioRef.current.play()
+        }
+        isPlayingRef.current = !isPlaying // Update the ref
+        setIsPlaying(!isPlaying)
+      } catch (error) {
+        console.error("Error toggling play state:", error)
       }
-      setIsPlaying(!isPlaying)
     }
   }
 
@@ -104,10 +115,12 @@ export default function MusicPlayer() {
     <div
       className={cn(
         "fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-black/70 backdrop-blur-md p-2 rounded-full border border-purple-800/50 shadow-lg transition-all duration-500",
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       )}
     >
-      <div className="text-xs text-purple-300 px-2 hidden sm:block">{tracks[currentTrackIndex].title}</div>
+      <div className="text-xs text-purple-300 px-2 hidden sm:block">
+        {tracks[currentTrackIndex].title}
+      </div>
 
       <Button
         variant="ghost"
@@ -138,4 +151,5 @@ export default function MusicPlayer() {
     </div>
   )
 }
+
 
