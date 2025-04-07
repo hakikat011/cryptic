@@ -1,0 +1,305 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 2%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Solo Leveling Theme Styles */
+.solo-theme {
+  --font-display: "Rajdhani", sans-serif;
+  --font-body: "Barlow", sans-serif;
+
+  /* Solo Leveling specific variables */
+  --solo-purple: 271 100% 64%;
+  --solo-purple-dark: 271 100% 40%;
+  --solo-blue: 240 84% 58%;
+  --solo-blue-dark: 240 100% 32%;
+  --solo-black: 0 0% 5%;
+  --solo-accent: 191 89% 62%;
+
+  background-color: #0d0d0d;
+  color: #ffffff;
+  font-family: var(--font-body);
+}
+
+/* Solo Leveling Typography */
+.solo-heading {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.solo-subheading {
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+  font-weight: 600;
+}
+
+/* Solo Leveling UI Elements */
+.solo-card {
+  background: linear-gradient(135deg, rgba(58, 12, 163, 0.2), rgba(13, 13, 13, 0.9));
+  border: 1px solid rgba(151, 71, 255, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.solo-button {
+  background: linear-gradient(90deg, #7209b7, #3a0ca3);
+  color: white;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.solo-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s;
+  z-index: -1;
+}
+
+.solo-button:hover::before {
+  left: 100%;
+}
+
+/* Solo Leveling Glowing Elements */
+.solo-glow-text {
+  color: #9747ff;
+  text-shadow: 0 0 10px rgba(151, 71, 255, 0.7);
+}
+
+.solo-glow-border {
+  border: 1px solid #9747ff;
+  box-shadow: 0 0 15px rgba(151, 71, 255, 0.5);
+}
+
+/* Solo Leveling Grid Pattern */
+.solo-grid-pattern {
+  background-image: linear-gradient(rgba(58, 12, 163, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(58, 12, 163, 0.3) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center center;
+}
+
+/* Solo Leveling Animated Background */
+.solo-animated-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.solo-animated-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(151, 71, 255, 0.15), transparent 30%),
+    radial-gradient(circle at 80% 30%, rgba(58, 12, 163, 0.15), transparent 30%);
+  z-index: -1;
+}
+
+/* GSAP Animation Classes */
+.reveal-text {
+  opacity: 0;
+}
+
+.reveal-image {
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+}
+
+.reveal-card {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.shadow-soldier {
+  filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(230deg) saturate(600%);
+  transition: all 0.5s ease;
+}
+
+.shadow-soldier:hover {
+  filter: grayscale(0%) brightness(100%);
+}
+
+/* Solo Leveling Status Window */
+.status-window {
+  background: rgba(13, 13, 13, 0.9);
+  border: 1px solid #9747ff;
+  box-shadow: 0 0 20px rgba(151, 71, 255, 0.5);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  font-family: var(--font-display);
+}
+
+.status-window-title {
+  color: #9747ff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(151, 71, 255, 0.5);
+  padding-bottom: 0.5rem;
+}
+
+.status-window-stat {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.status-window-stat-name {
+  color: #4cc9f0;
+}
+
+.status-window-stat-value {
+  color: white;
+}
+
+/* Solo Leveling Progress Bar */
+.solo-progress-container {
+  width: 100%;
+  height: 8px;
+  background: rgba(45, 45, 45, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.solo-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #7209b7, #4361ee);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+/* Solo Leveling Hexagon Grid */
+.hexagon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+}
+
+.hexagon {
+  position: relative;
+  width: 100%;
+  padding-bottom: 115%; /* Maintain hexagon aspect ratio */
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: linear-gradient(135deg, #7209b7, #3a0ca3);
+  transition: all 0.3s ease;
+}
+
+.hexagon:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(151, 71, 255, 0.5);
+}
+
+/* Solo Leveling Notification */
+.solo-notification {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background: rgba(13, 13, 13, 0.9);
+  border-left: 4px solid #9747ff;
+  padding: 1rem;
+  color: white;
+  font-family: var(--font-display);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  transform: translateX(100%);
+}
+
+/* Solo Leveling Cursor */
+.solo-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(151, 71, 255, 0.5);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.solo-cursor-follower {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(151, 71, 255, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+}
+
+/* Solo Leveling Slash Card Styles */
+.clip-path-\[polygon$$0_0\,100\%_0\,100\%_70\%\,0_100\%$$\] {
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+}
+

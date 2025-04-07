@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "gsap": "^3.12.4",
+    "@studio-freight/lenis": "^1.0.29",
+    "split-type": "^0.3.4",
+    "@types/gsap": "^3.0.0"
+  }
+}
+
