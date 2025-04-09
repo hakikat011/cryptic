@@ -48,13 +48,48 @@ const categories = [
 ]
 
 export default function SoloAboutSection() {
-  const sectionRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
-  const skillsRef = useRef<HTMLDivElement>(null)
+  const originalImageRef = useRef<HTMLDivElement>(null)
   const statusWindowRef = useRef<HTMLDivElement>(null)
+  const skillsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Add hover effect for image swap
+    const handleMouseEnter = () => {
+      gsap.to(imageRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+      gsap.to(originalImageRef.current, {
+        opacity: 0.8,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(imageRef.current, {
+        opacity: 0.8,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+      gsap.to(originalImageRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+    };
+
+    const imageContainer = imageRef.current?.parentElement;
+    if (imageContainer) {
+      imageContainer.addEventListener('mouseenter', handleMouseEnter);
+      imageContainer.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    // Your existing GSAP animations...
     const ctx = gsap.context(() => {
       // Create timeline for section animations
       const tl = gsap.timeline({
@@ -127,7 +162,13 @@ export default function SoloAboutSection() {
       )
     }, sectionRef)
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert();
+      if (imageContainer) {
+        imageContainer.removeEventListener('mouseenter', handleMouseEnter);
+        imageContainer.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
   }, [])
 
   return (
@@ -169,12 +210,12 @@ export default function SoloAboutSection() {
 
               <div className="status-window-stat">
                 <span className="status-window-stat-name">Level</span>
-                <span className="status-window-stat-value">S</span>
+                <span className="status-window-stat-value">A</span>
               </div>
 
               <div className="status-window-stat">
                 <span className="status-window-stat-name">Specialization</span>
-                <span className="status-window-stat-value">Quantum Finance</span>
+                <span className="status-window-stat-value">AI Quantitative</span>
               </div>
 
               <div>
@@ -220,14 +261,28 @@ export default function SoloAboutSection() {
           </div>
 
           <div className="space-y-8">
-            <div ref={imageRef} className="relative h-64 mb-8 overflow-hidden rounded-lg solo-glow-border">
-              <Image
-                src="/images/hakikat-profile.jpg"
-                alt="Hakikat Singh"
-                fill
-                className="object-cover"
-                quality={100}
-              />
+            <div className="relative h-64 mb-8 overflow-hidden rounded-lg solo-glow-border">
+              {/* Sketchy animated image */}
+              <div className="relative h-full w-full" ref={imageRef}>
+                <Image
+                  src="/images/sketchy-animated.jpg"
+                  alt="Artistic representation"
+                  fill
+                  className="object-cover"
+                  quality={100}
+                />
+              </div>
+              
+              {/* Original image (hidden by default) */}
+              <div className="absolute inset-0 opacity-0" ref={originalImageRef}>
+                <Image
+                  src="/images/hakikat-profile.jpg"
+                  alt="Hakikat Singh"
+                  fill
+                  className="object-cover"
+                  quality={100}
+                />
+              </div>
 
               {/* Animated overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-solo-blue-dark/80 to-transparent"></div>
@@ -269,4 +324,6 @@ export default function SoloAboutSection() {
     </section>
   )
 }
+
+
 

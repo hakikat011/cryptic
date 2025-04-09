@@ -43,24 +43,42 @@ const shadowSoldiers = [
     role: "Adaptive Trading Bot",
     level: "S",
     imageSrc: "/images/sherlock-soldier.jpg",
+    shadowSrc: "/images/shadows/tusk.png",
   },
   {
     name: "Morzart Edge",
     role: "Sentiment Analysis",
     level: "A+",
     imageSrc: "/images/morzart-soldier.jpg",
+    shadowSrc: "/images/shadows/tank.png",
   },
   {
     name: "Alpha Forge",
     role: "NLP Framework",
     level: "A",
     imageSrc: "/images/alpha-soldier.jpg",
+    shadowSrc: "/images/shadows/beru.png",
   },
   {
     name: "Quantum HHL",
     role: "Linear System Solver",
     level: "S+",
     imageSrc: "/images/quantum-soldier.jpg",
+    shadowSrc: "/images/shadows/igris.png",
+  },
+  {
+    name: "AskQubits",
+    role: "Quantum Portfolio Optimizer",
+    level: "S",
+    imageSrc: "/images/askqubits-soldier.jpg",
+    shadowSrc: "/images/shadows/iron.png",
+  },
+  {
+    name: "AquaShift",
+    role: "Liquid Simulation Framework",
+    level: "A+",
+    imageSrc: "/images/aquashift-soldier.jpg",
+    shadowSrc: "/images/shadows/dragon.png",
   },
 ]
 
@@ -185,6 +203,7 @@ export default function SoloExperienceSection() {
                 <ShadowSoldier
                   key={soldier.name}
                   imageSrc={soldier.imageSrc}
+                  shadowSrc={soldier.shadowSrc}
                   name={soldier.name}
                   role={soldier.role}
                   level={soldier.level}
@@ -198,4 +217,6 @@ export default function SoloExperienceSection() {
     </section>
   )
 }
+
+
 

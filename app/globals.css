@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0%S 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -302,4 +302,304 @@
 .clip-path-\[polygon$$0_0\,100\%_0\,100\%_70\%\,0_100\%$$\] {
   clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
 }
+
+/* Solo Leveling Mist Effect */
+.solo-mist {
+  filter: blur(10px);
+  transform-origin: center;
+  animation: mistPulse 4s ease-in-out infinite;
+}
+
+@keyframes mistPulse {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 0.8; 
+  }
+  50% { 
+    transform: scale(1.1); 
+    opacity: 0.6; 
+  }
+}
+
+/* Shadow Soldier Card Container */
+.shadow-soldier-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Card Hover Effects */
+.shadow-soldier-card:hover {
+  transform: translateY(-40px) scale(1.08);
+  z-index: 20;
+  box-shadow: 
+    0 30px 60px -12px rgba(151, 71, 255, 0.5),
+    0 0 20px rgba(151, 71, 255, 0.3);
+}
+
+/* Enhanced mist effect */
+.solo-mist {
+  background: 
+    radial-gradient(circle at 50% 50%, 
+      rgba(151, 71, 255, 0.15), 
+      transparent 70%),
+    linear-gradient(to bottom,
+      rgba(151, 71, 255, 0.1),
+      rgba(0, 0, 0, 0.3));
+  mix-blend-mode: screen;
+  filter: blur(10px);
+  transform-origin: center;
+  animation: mistPulse 4s ease-in-out infinite;
+}
+
+@keyframes mistPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 0.6; }
+}
+
+/* 3D perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Smooth transitions */
+.shadow-soldier-card * {
+  transition: all 0.3s ease;
+}
+  perspective: 1000px;
+
+
+.preserve-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Enhanced mist effect */
+.solo-mist {
+  background: 
+    radial-gradient(circle at 50% 50%, 
+      rgba(151, 71, 255, 0.15), 
+      transparent 70%),
+    linear-gradient(to bottom,
+      rgba(151, 71, 255, 0.1),
+      rgba(0, 0, 0, 0.3));
+  mix-blend-mode: screen;
+  filter: blur(10px);
+  transform-origin: center;
+  animation: mistPulse 4s ease-in-out infinite;
+}
+
+@keyframes mistPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 0.6; }
+}
+
+/* Shadow Soldier Card Container */
+.shadow-soldier-card {
+  transition: all 0.5s ease-in-out;
+}
+
+.shadow-soldier-card:hover {
+  z-index: 10;
+}
+
+/* Impact frame animation */
+@keyframes impactFrame {
+  0% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* 3D perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Enhanced mist effect */
+.solo-mist {
+  background: 
+    radial-gradient(circle at 50% 50%, 
+      rgba(151, 71, 255, 0.15), 
+      transparent 70%),
+    linear-gradient(to bottom,
+      rgba(151, 71, 255, 0.1),
+      rgba(0, 0, 0, 0.3));
+  mix-blend-mode: screen;
+  filter: blur(10px);
+  transform-origin: center;
+  animation: mistPulse 4s ease-in-out infinite;
+}
+
+@keyframes mistPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 0.6; }
+}
+
+/* Shadow Soldier Card Container */
+.shadow-soldier-card {
+  transition: all 0.5s ease-in-out;
+}
+
+.shadow-soldier-card:hover {
+  z-index: 10;
+}
+
+/* Impact frame animation */
+@keyframes impactFrame {
+  0% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* 3D perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Enhanced mist effect */
+.solo-mist {
+  background: 
+    radial-gradient(circle at 50% 50%, 
+      rgba(151, 71, 255, 0.15), 
+      transparent 70%),
+    linear-gradient(to bottom,
+      rgba(151, 71, 255, 0.1),
+      rgba(0, 0, 0, 0.3));
+  mix-blend-mode: screen;
+  filter: blur(10px);
+  transform-origin: center;
+  animation: mistPulse 4s ease-in-out infinite;
+}
+
+@keyframes impactFrame {
+  0% { 
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Impact Frame class */
+.impact-frame {
+  position: absolute;
+  inset: 0;
+  border: 2px solid #9747ff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.impact-frame-active {
+  animation: impactFrame 0.5s ease-out forwards;
+}
+
+/* Shadow Soldier Card Base Styles */
+.shadow-soldier-container {
+  position: relative;
+  perspective: 1500px;
+  z-index: 1;
+}
+
+.shadow-soldier-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1;
+}
+
+/* Card Hover Effects */
+.shadow-soldier-card:hover {
+  transform: translateY(-40px) scale(1.08) rotateY(5deg);
+  z-index: 20;
+  box-shadow: 
+    0 30px 60px -12px rgba(151, 71, 255, 0.5),
+    0 0 20px rgba(151, 71, 255, 0.3);
+}
+
+/* Non-hovered Cards Dimming */
+.shadow-soldier-card:hover ~ .shadow-soldier-card {
+  filter: brightness(0.15) blur(4px);
+  transform: scale(0.92);
+}
+
+/* Mist Effect */
+.solo-mist {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(151, 71, 255, 0.25) 0%,
+      transparent 70%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(151, 71, 255, 0.15) 0%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+  mix-blend-mode: screen;
+  filter: blur(15px);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.shadow-soldier-card:hover .solo-mist {
+  opacity: 0.9;
+  transform: scale(1.15);
+}
+
+/* Overlay Dim Effect */
+.overlay-dim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 15;
+}
+
+.shadow-soldier-card:hover ~ .overlay-dim {
+  opacity: 1;
+}
+
+/* 3D Perspective Utilities */
+.preserve-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Animation Keyframes */
+@keyframes mistPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: scale(1.15);
+    opacity: 0.6;
+  }
+}
+
+/* Smooth transitions */
+.shadow-soldier-card * {
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 

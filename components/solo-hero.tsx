@@ -184,29 +184,13 @@ export default function SoloHero() {
 
       {/* Hero background images - sketchy and original with hover effect */}
       <div className="absolute inset-0 z-0">
-        {/* Sketchy animated image */}
-        <div className="absolute inset-0 transition-opacity duration-500" ref={imageRef}>
-          <Image
-            src="/images/sketchy-animated.jpg" // Replace with your sketchy image path
-            alt="Artistic background"
-            fill
-            priority
-            className="object-cover opacity-80"
-            quality={100}
-          />
-        </div>
-        
-        {/* Original image (hidden by default) */}
-        <div className="absolute inset-0 opacity-0 transition-opacity duration-500" ref={originalImageRef}>
-          <Image
-            src="/images/hakikat-profile.jpg" // Replace with your original image path
-            alt="Hakikat Singh"
-            fill
-            priority
-            className="object-cover"
-            quality={100}
-          />
-        </div>
+        <Image
+          src="/images/hero-background.jpeg"
+          alt="Dark themed background"
+          fill
+          priority
+          className="object-cover opacity-80"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-purple-900/20 to-black/60 backdrop-blur-[2px]"></div>
       </div>
 
@@ -259,6 +243,7 @@ export default function SoloHero() {
     </div>
   )
 }
+
 
 
 

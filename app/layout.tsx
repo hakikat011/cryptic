@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import SoloNavbar from "@/components/solo-navbar"
 import SoloFooter from "@/components/solo-footer"
 import SoloCursor from "@/components/solo-cursor"
+import BackgroundMusic from "@/components/background-music"
 
 // Font definitions
 const rajdhani = Rajdhani({
@@ -47,6 +48,7 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <SoloFooter />
             <SoloCursor />
+            <BackgroundMusic />
           </div>
         </ThemeProvider>
       </body>
