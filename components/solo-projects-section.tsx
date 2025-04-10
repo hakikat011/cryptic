@@ -242,7 +242,7 @@ export default function SoloProjectsSection() {
             >
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
-                  src={project.image || "/placeholder.svg?height=400&width=600"}
+                  src={project.image}
                   alt={project.title}
                   fill
                   className="object-cover transition-transform duration-500 hover:scale-110"
@@ -323,6 +323,7 @@ export default function SoloProjectsSection() {
     </section>
   )
 }
+
 
 
 

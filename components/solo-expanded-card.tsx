@@ -56,56 +56,52 @@ export default function SoloExpandedCard({ project, onClose, isOpen }: ExpandedC
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-          />
-
-          {/* Card Container */}
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <motion.div
             ref={cardRef}
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 30,
-              duration: 0.4
-            }}
-            className="relative w-[95vw] max-w-5xl max-h-[90vh] overflow-y-auto rounded-xl"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-solo-gray-dark/90 rounded-xl w-full max-w-6xl overflow-hidden border border-solo-purple/30"
           >
-            {/* Card Content */}
-            <div className="bg-solo-black border border-solo-purple/30 rounded-xl overflow-hidden">
-              {/* Background Pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0 solo-grid-pattern"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-solo-purple/20 via-transparent to-transparent"></div>
-              </div>
+            <div className="relative">
+              {/* Character ID Card Section */}
+              {project.characterImage && (
+                <div className="absolute left-0 top-0 h-full w-[300px] bg-solo-purple/10 border-r border-solo-purple/30 z-20">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="p-6"
+                  >
+                    <div className="relative h-[400px] rounded-lg overflow-hidden mb-4">
+                      <Image
+                        src={project.characterImage}
+                        alt={`${project.title} character`}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Badge 
+                        variant="outline" 
+                        className="w-full justify-center border-solo-purple/50 text-solo-purple-light bg-black/50"
+                      >
+                        RANK {project.level}
+                      </Badge>
+                      <h3 className="text-xl font-bold text-solo-purple-light text-center">
+                        {project.characterName || project.title}
+                      </h3>
+                    </div>
+                  </motion.div>
+                </div>
+              )}
 
-              {/* Close Button */}
-              <motion.button
-                onClick={onClose}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 text-white 
-                         hover:bg-solo-purple/30 transition-colors border border-solo-purple/30"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <X size={20} />
-              </motion.button>
-
-              {/* Main Content */}
-              <div className="relative z-10 p-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {/* Left Column - Info */}
+              {/* Main Content - Adjusted margin when character exists */}
+              <div className={cn(
+                "relative z-10 p-8",
+                project.characterImage && "ml-[300px]"
+              )}>
+                <div className="grid grid-cols-1 gap-8">
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -250,4 +246,5 @@ export default function SoloExpandedCard({ project, onClose, isOpen }: ExpandedC
     </AnimatePresence>
   )
 }
+
 
