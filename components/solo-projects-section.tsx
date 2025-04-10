@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import Image from "next/image"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -9,10 +9,30 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ExternalLink, Github, ArrowRight, FileText } from "lucide-react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import SoloExpandedCard from "./solo-expanded-card"
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
+}
+
+interface Project {
+  title: string
+  description: string
+  image: string
+  category: string
+  technologies: string[]
+  demoLink: string
+  repoLink: string
+  level: string
+  type: string
+  date: string
+}
+
+interface ExpandedProject extends Project {
+  longDescription?: string
+  features?: string[]
+  characterImage?: string
 }
 
 const categories = [
@@ -22,7 +42,7 @@ const categories = [
   { id: "quantum", label: "Quantum Computing" },
 ]
 
-const projects = [
+const projects: Project[] = [
   {
     title: "Hybrid Classical-Quantum Algorithms for Financial Linear Systems",
     description:
@@ -62,6 +82,7 @@ const projects = [
     type: "Thesis",
     date: "November 2023",
   },
+  
   {
     title: "Sherlock Trading System",
     description:
@@ -99,12 +120,17 @@ const projects = [
 
 export default function SoloProjectsSection() {
   const [activeTab, setActiveTab] = useState("all")
+  const [selectedProject, setSelectedProject] = useState<ExpandedProject | null>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const tabsRef = useRef<HTMLDivElement>(null)
   const projectsRef = useRef<HTMLDivElement>(null)
 
   const filteredProjects = activeTab === "all" ? projects : projects.filter((project) => project.category === activeTab)
+
+  const handleCloseProject = useCallback(() => {
+    setSelectedProject(null)
+  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -209,7 +235,11 @@ export default function SoloProjectsSection() {
 
         <div ref={projectsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
-            <Card key={project.title} className="project-card solo-card overflow-hidden">
+            <Card 
+              key={project.title} 
+              className="project-card solo-card overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
+              onClick={() => setSelectedProject(project as ExpandedProject)}
+            >
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
                   src={project.image || "/placeholder.svg?height=400&width=600"}
@@ -285,7 +315,14 @@ export default function SoloProjectsSection() {
           </Button>
         </div>
       </div>
+      <SoloExpandedCard 
+        project={selectedProject!}
+        isOpen={!!selectedProject}
+        onClose={handleCloseProject}
+      />
     </section>
   )
 }
+
+
 
